@@ -1,0 +1,86 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="volverAtras()" fill="clear">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; margin-left: -80px; font-weight: bold;">Registro de Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="colorcito" style="--background: linear-gradient(to bottom, #ADD8E6, #7FFFD4);">
+  <div style="text-align: center; margin: 20px 0;">
+    <ion-avatar style="display: inline-block;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" alt="Profile Picture" />
+    </ion-avatar>
+    <ion-label style="display: block; margin-top: 10px; font-size: 24px; font-weight: bold;">Crear cuenta</ion-label>
+  </div>
+
+  <ion-list>
+    <!-- Nombre completo -->
+    <ion-item>
+      <ion-label position="floating">Nombre completo</ion-label>
+      <ion-input type="text" [(ngModel)]="nombre" placeholder="Ingresa tu nombre completo" required></ion-input>
+    </ion-item>
+
+    <!-- Correo electrónico -->
+    <ion-item>
+      <ion-label position="floating">Correo electrónico</ion-label>
+      <ion-input type="email" [(ngModel)]="correo" placeholder="Ingresa tu correo electrónico" required></ion-input>
+    </ion-item>
+
+    <!-- Contraseña -->
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" [(ngModel)]="contrasena" placeholder="Ingresa tu contraseña" required></ion-input>
+    </ion-item>
+
+    <!-- Confirmar contraseña -->
+    <ion-item>
+      <ion-label position="floating">Confirmar contraseña</ion-label>
+      <ion-input type="password" [(ngModel)]="confirmarContrasena" placeholder="Confirma tu contraseña" required></ion-input>
+    </ion-item>
+
+  
+
+  <!-- Botón de registrar -->
+  <div style="text-align: center; margin: 20px;">
+    <ion-button color="secondary" expand="full" (click)="registrarUsuario()">Registrar</ion-button>
+  </div>
+
+  <!-- Enlace para redirigir a login -->
+  <div style="text-align: center; margin: 0 20px;">
+    <ion-label style="font-size: 14px;">¿Ya tienes una cuenta? <a (click)="irALogin()" style="color: #007bff; text-decoration: none;">Inicia sesión</a></ion-label>
+  </div>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="secondary" class="footer-buttons">    
+      <ion-button expand="full" (click)="irASesiones()">
+        <ion-icon name="home" slot="icon-only"></ion-icon>
+      </ion-button>  
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<style>
+  ion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .footer-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  ion-button {
+    --size: 60px;
+    font-size: 1.5rem;
+    margin: 0 10px;
+  }
+</style>

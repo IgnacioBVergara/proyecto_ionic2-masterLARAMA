@@ -1,0 +1,65 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="volverAtras()" fill="clear">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; margin-left: -80px; font-weight: bold;">RegistrApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="colorcito" style="--background: linear-gradient(to bottom, #ADD8E6, #7FFFD4);">
+  <div style="text-align: center; margin: 20px 0;">
+    <ion-avatar style="display: inline-block;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" alt="Profile Picture" />
+    </ion-avatar>
+    <ion-label style="display: block; margin-top: 10px; font-size: 24px; font-weight: bold;">El profe</ion-label>
+    <div style="font-size: 14px; display: flex; justify-content: center; align-items: center; margin-top: 5px;">
+      <ion-icon name="location-outline" style="margin-right: 5px;"></ion-icon>
+      <span>Sede San Andrés, Concepción</span>
+    </div>
+  </div>
+
+<!-- Imagen del logo QR como botón -->
+<div style="text-align: center; margin: 20px 0;">
+  <ion-button style="display: inline-block; padding: 0; margin-bottom: 10px; width: 300px; height: 250px;" fill="clear" (click)="generarQR()">
+    <img src="https://cdn-icons-png.flaticon.com/512/1177/1177510.png" alt="Logo QR" style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;" />  
+  </ion-button>
+  <div style="font-size: 28px; margin-top: 10px;"><strong>Generar QR</strong></div>
+</div>
+
+  
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="secondary" class="footer-buttons">    
+      <ion-button expand="full" (click)="irASesiones()">
+        <ion-icon name="home" slot="icon-only"></ion-icon>
+      </ion-button>  
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+
+<style>
+  ion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .footer-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  ion-button {
+    --size: 60px;
+    font-size: 1.5rem;
+    margin: 0 10px;
+  }
+</style>

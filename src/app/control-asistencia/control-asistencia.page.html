@@ -1,0 +1,97 @@
+<ion-header [translucent]="true" style="background-color: aquamarine;">
+  <ion-toolbar style="--background: linear-gradient(to bottom, #73aefc, #9ddffc);">
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="person"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title style="text-align: center;">
+      Control De Asistencia 
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="settings"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="colorcito" style="--background: linear-gradient(to bottom, #ADD8E6, #7FFFD4);">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Lista de Alumnos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item *ngFor="let student of students">
+      <ion-label>{{ student.name }}</ion-label>
+      <div style="display: flex; align-items: center;">
+        <div style="text-align: center; margin-right: 10px;">
+          <ion-label>Presente</ion-label>
+          <ion-checkbox slot="end" [(ngModel)]="student.present"></ion-checkbox>
+        </div>
+        <div style="text-align: center; margin-right: 10px;">
+          <ion-label style="color: brown;">Ausente</ion-label>
+          <ion-checkbox style="color: brown;" [(ngModel)]="student.absent"></ion-checkbox>
+        </div>
+        <div style="text-align: center;">
+          <ion-label style="color: rgb(255, 255, 172);">Justificado</ion-label>
+          <ion-checkbox style="color: rgb(255, 255, 172);" slot="end" [(ngModel)]="student.justified"></ion-checkbox>
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-item>
+    <ion-button expand="full" (click)="presentAlert()" style="margin: 0 auto;">
+      Registrar Asistencia
+    </ion-button>
+  </ion-item>
+</ion-content>
+
+
+
+
+
+
+
+
+<!-- aqui va el footer -->
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="secondary" class="footer-buttons">
+      <ion-button expand="full">
+        <ion-icon name="home" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button expand="full">
+        <ion-icon name="search" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button expand="full">
+        <ion-icon name="settings" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<style>
+  ion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .footer-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  ion-button {
+    --size: 60px; /* Ajusta el tamaño de los botones */
+    font-size: 1.5rem; /* Ajusta el tamaño de la fuente */
+    margin: 0 10px; /* Espaciado entre los botones */
+  }
+</style>

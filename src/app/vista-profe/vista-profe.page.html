@@ -1,0 +1,75 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="volverAtras()" fill="clear">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; margin-left: -80px; font-weight: bold;">RegistrApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="colorcito" style="--background: linear-gradient(to bottom, #ADD8E6, #7FFFD4);">
+  <div style="text-align: center; margin: 20px 0;">
+    <ion-avatar style="display: inline-block;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" alt="Profile Picture" />
+    </ion-avatar>
+    <ion-label style="display: block; margin-top: 10px; font-size: 24px; font-weight: bold;">El profe</ion-label>
+    <div style="font-size: 14px; display: flex; justify-content: center; align-items: center; margin-top: 5px;">
+      <ion-icon name="location-outline" style="margin-right: 5px;"></ion-icon>
+      <span>Sede San Andrés, Concepción</span>
+    </div>
+  </div>
+
+  <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irASecciones()">
+      <ion-icon slot="start" name="list-outline"></ion-icon>
+      Generar QR Secciones
+    </ion-button>
+  </div>
+  
+  <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="verAsistencia()">
+      <ion-icon slot="start" name="list-outline"></ion-icon>
+      Ver Asistencia Secciones
+    </ion-button>
+  </div>
+
+  <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="abrirAyuda()">
+      <ion-icon slot="start" name="help-circle-outline"></ion-icon>
+      Ayuda
+    </ion-button>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="secondary" class="footer-buttons">    
+      <ion-button expand="full" (click)="irASesiones()">
+        <ion-icon name="home" slot="icon-only"></ion-icon>
+      </ion-button>  
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<style>
+  ion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Asegura que el contenido ocupe el espacio restante */
+    height: 100%; /* Asegura que el ion-content ocupe todo el alto disponible */
+  }
+
+  .footer-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  ion-button {
+    --size: 60px; /* Ajusta el tamaño de los botones */
+    font-size: 1.5rem; /* Ajusta el tamaño de la fuente */
+    margin: 0 10px; /* Espaciado entre los botones */
+  }
+</style>
