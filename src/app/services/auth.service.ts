@@ -1,7 +1,17 @@
 import { Injectable } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';  // Firebase Auth
+import { Firestore, doc, getDoc } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 import { FirebaseService } from '../firebase.service'; // Servicio para guardar datos en Firestore
 import { BehaviorSubject } from 'rxjs';  // Usamos BehaviorSubject para emitir cambios en el estado de autenticación
+
+// Define una interfaz para los datos del usuario en Firestore
+export interface Usuario {
+  nombre: string;
+  correo: string;
+  createdAt: any;
+  rol: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +19,7 @@ import { BehaviorSubject } from 'rxjs';  // Usamos BehaviorSubject para emitir c
 export class AuthService {
 
   private auth = getAuth();  // Inicializamos Firebase Auth
+  private firestore: Firestore = getFirestore();  // Inicializamos Firestore
   private userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);  // Para emitir el estado del usuario autenticado
 
   constructor(private firebaseService: FirebaseService) {
@@ -64,6 +75,29 @@ export class AuthService {
   getUid() {
     const user = this.userSubject.value;
     return user ? user.uid : null;  // Si hay un usuario autenticado, devolvemos su UID
+  }
+
+  // Método para obtener los datos del usuario logueado (nombre, correo, rol)
+  async obtenerDatosUsuario(): Promise<Usuario> {
+    const user = this.userSubject.value;
+    if (user) {
+      try {
+        const userRef = doc(this.firestore, 'usuarios', user.uid);  // Referencia al documento del usuario en Firestore
+        const docSnap = await getDoc(userRef);
+
+        if (docSnap.exists()) {
+          console.log('Datos del usuario obtenidos:', docSnap.data());  // Verifica los datos
+          return docSnap.data() as Usuario;  // Retorna los datos del usuario (nombre, correo, rol, etc.) tipados correctamente
+        } else {
+          throw new Error('Usuario no encontrado en Firestore');
+        }
+      } catch (error) {
+        console.error('Error al obtener los datos del usuario:', error);
+        throw new Error('Error al obtener los datos del usuario');
+      }
+    } else {
+      throw new Error('No hay usuario logueado');
+    }
   }
 
   // Método para cerrar sesión

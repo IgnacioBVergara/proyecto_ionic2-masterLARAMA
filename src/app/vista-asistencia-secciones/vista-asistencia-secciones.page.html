@@ -5,7 +5,10 @@
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="text-align: center; margin-left: -80px; font-weight: bold;">RegistrApp</ion-title>
+    <ion-title style="text-align: center; margin-left: -80px; font-weight: bold;">
+      <!-- Mostrar el nombre del usuario logueado en lugar de un texto fijo -->
+      Bienvenido, {{ isLoading ? 'Cargando...' : nombreUsuario }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +17,9 @@
     <ion-avatar style="display: inline-block;">
       <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" alt="Profile Picture" />
     </ion-avatar>
-    <ion-label style="display: block; margin-top: 10px; font-size: 24px; font-weight: bold;">Asistencia Secciones</ion-label>
+    <ion-label style="display: block; margin-top: 10px; font-size: 24px; font-weight: bold;">
+      Asistencia Secciones
+    </ion-label>
     <div style="font-size: 14px; display: flex; justify-content: center; align-items: center; margin-top: 5px;">
       <ion-icon name="location-outline" style="margin-right: 5px;"></ion-icon>
       <span>Sede San Andrés, Concepción</span>
