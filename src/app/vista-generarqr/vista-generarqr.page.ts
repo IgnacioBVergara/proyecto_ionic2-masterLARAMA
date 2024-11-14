@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';  // Importamos ActivatedRoute
 import { FirebaseService } from '../firebase.service';
 import { getAuth } from 'firebase/auth';
 
@@ -15,11 +15,25 @@ export class VistaGenerarqrPage implements OnInit {
   asignatura: string = '';  // Asignatura seleccionada por el profesor
   nombreProfesor: string = '';  // Nombre del profesor
 
-  constructor(private navController: NavController, private router: Router, private firebaseService: FirebaseService) {}
+  constructor(
+    private navController: NavController,
+    private router: Router,
+    private route: ActivatedRoute,  // Para obtener parámetros de la URL
+    private firebaseService: FirebaseService
+  ) {}
 
   ngOnInit() {
+    // Obtener el parámetro 'asignatura' de la URL
+    this.route.queryParams.subscribe(params => {
+      if (params['asignatura']) {
+        this.asignatura = params['asignatura'];  // Guardamos la asignatura seleccionada
+        console.log('Asignatura seleccionada:', this.asignatura);
+      }
+    });
+
+    // Obtener el UID del usuario autenticado
     const auth = getAuth();
-    const user = auth.currentUser;  // Obtener el usuario autenticado
+    const user = auth.currentUser;
     if (user) {
       console.log('UID del usuario autenticado:', user.uid);
       
@@ -35,30 +49,27 @@ export class VistaGenerarqrPage implements OnInit {
     }
   }
 
-  // Esta función se activa cuando el profesor selecciona la asignatura
-  onAsignaturaSeleccionada(event: any) {
-    this.asignatura = event.target.value;  // Guardamos la asignatura seleccionada
-    console.log('Asignatura seleccionada:', this.asignatura);
-  }
-
+  // Método para volver a la vista anterior
   volverAtras() {
     this.navController.back();
   }
 
+  // Método para generar el QR
   generarQR() {
     const auth = getAuth();
     const user = auth.currentUser;  // Obtener el usuario autenticado
 
-    if (user) {
-      // Generar un enlace con el UID del usuario, puede ser algo como:
-      this.qrData = `https://example.com/escaneo/${user.uid}`;
+    if (user && this.asignatura) {
+      // Generar un enlace con el UID del usuario y la asignatura seleccionada
+      this.qrData = `https://example.com/escaneo/${user.uid}/${this.asignatura}`;
 
       // Ahora guardamos la sesión en Firestore con el nombre de la asignatura
       this.firebaseService.guardarSesionQR(user.uid, this.asignatura, this.qrData);  // Guardamos la sesión QR
 
     } else {
-      // Si no hay usuario autenticado, manejar el error
-      this.qrData = '';
+      // Si no hay usuario autenticado o asignatura seleccionada, manejar el error
+      console.error('No se ha seleccionado una asignatura o no hay usuario autenticado');
+      alert('Por favor, selecciona una asignatura y asegúrate de estar autenticado');
     }
   }
 }
