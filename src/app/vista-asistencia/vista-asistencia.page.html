@@ -10,56 +10,56 @@
 </ion-header>
 
 <ion-content class="colorcito" style="--background: linear-gradient(to bottom, #ADD8E6, #7FFFD4);">
-  <div style="text-align: center; margin: 20px 0;">
-    <ion-avatar style="display: inline-block;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" alt="Profile Picture" />
-    </ion-avatar>
-    <ion-label style="display: block; margin-top: 10px; font-size: 24px; font-weight: bold;">18/09/2024 - programacion-</ion-label>
-    <div style="font-size: 14px; display: flex; justify-content: center; align-items: center; margin-top: 5px;">
-      <ion-icon name="location-outline" style="margin-right: 5px;"></ion-icon>
-      <span>Sede San Andrés, Concepción</span>
-    </div>
+  <div *ngIf="sesiones.length === 0" style="text-align: center; margin-top: 20px;">
+    <ion-label>No se encontraron sesiones para este profesor.</ion-label>
   </div>
 
-  <ion-list>
-    <ion-item>
-      <ion-label>Matias Mora</ion-label>
-      <ion-note slot="end" style="color: green;">Asistido</ion-note>
-    </ion-item>
-    <ion-item>
-      <ion-label>Igancio Bello</ion-label>
-      <ion-note slot="end" style="color: red;">Falta</ion-note>
-    </ion-item>
-    <ion-item>
-      <ion-label>Luis Aedo</ion-label>
-      <ion-note slot="end" style="color: green;">Asistido</ion-note>
-    </ion-item>
-    <ion-item>
-      <ion-label>Ian cortes</ion-label>
-      <ion-note slot="end" style="color: red;">Falta</ion-note>
-    </ion-item>
-  </ion-list>
-
-  
+  <div *ngIf="sesiones.length > 0">
+    <ion-list>
+      <!-- Itera sobre el array de sesiones usando *ngFor -->
+      <ion-item *ngFor="let sesion of sesiones">
+        <ion-avatar slot="start">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" alt="Sesion Avatar" />
+        </ion-avatar>
+        <ion-label style="display: block; margin-top: 10px; font-size: 18px; font-weight: bold;">
+          {{ sesion.asignatura || 'Asignatura no definida' }} - 
+          {{ sesion.fechaGeneracion.toDate() | date: 'dd/MM/yyyy, h:mm a' }} <!-- Muestra la fecha correctamente -->
+        </ion-label>
+        <div style="font-size: 14px; display: flex; justify-content: center; align-items: center; margin-top: 5px;">
+          <ion-icon name="location-outline" style="margin-right: 5px;"></ion-icon>
+          <span>{{ sesion.sede || 'Ubicación no definida' }}</span>
+        </div>
+        <div style="font-size: 14px; text-align: center; margin-top: 10px;">
+          <ion-button fill="clear" (click)="verAsistencia(sesion)">
+            
+          </ion-button>
+        </div>
+        <div style="font-size: 14px; text-align: center;">
+          <ion-button fill="clear" [href]="sesion.qrUrl" target="_blank">
+            
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <ion-buttons slot="secondary" class="footer-buttons">    
+    <ion-buttons slot="secondary" class="footer-buttons">
       <ion-button expand="full" (click)="irASesiones()">
         <ion-icon name="home" slot="icon-only"></ion-icon>
-      </ion-button>  
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
-
 
 <style>
   ion-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Asegura que el contenido ocupe el espacio restante */
-    height: 100%; /* Asegura que el ion-content ocupe todo el alto disponible */
+    justify-content: space-between;
+    height: 100%;
   }
 
   .footer-buttons {
@@ -69,8 +69,8 @@
   }
 
   ion-button {
-    --size: 60px; /* Ajusta el tamaño de los botones */
-    font-size: 1.5rem; /* Ajusta el tamaño de la fuente */
-    margin: 0 10px; /* Espaciado entre los botones */
+    --size: 60px;
+    font-size: 1.5rem;
+    margin: 0 10px;
   }
 </style>
