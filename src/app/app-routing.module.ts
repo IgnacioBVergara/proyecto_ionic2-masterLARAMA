@@ -79,6 +79,11 @@ const routes: Routes = [
     path: 'vista-registro',
     loadChildren: () => import('./vista-registro/vista-registro.module').then( m => m.VistaRegistroPageModule)
   },
+  {
+    path: 'vista-detalles/:id',  // RUTA ACTUALIZADA CON EL PARÁMETRO ':id'
+    loadChildren: () => import('./vista-detalles/vista-detalles.module').then(m => m.VistaDetallesPageModule)
+  }
+  ,
 ];
 
 @NgModule({
