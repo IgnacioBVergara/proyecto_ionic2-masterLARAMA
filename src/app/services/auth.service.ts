@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';  // Firebase Auth
+import { Router } from '@angular/router'; // Importamos Router para redirigir
 import { FirebaseService } from '../firebase.service'; // Servicio para guardar datos en Firestore
 import { BehaviorSubject } from 'rxjs';  // Usamos BehaviorSubject para emitir cambios en el estado de autenticación
 
@@ -11,7 +12,10 @@ export class AuthService {
   private auth = getAuth();  // Inicializamos Firebase Auth
   private userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);  // Para emitir el estado del usuario autenticado
 
-  constructor(private firebaseService: FirebaseService) {
+  constructor(
+    private firebaseService: FirebaseService,
+    private router: Router  // Inyectamos Router
+  ) {
     // Revisar el estado de autenticación cuando se inicializa el servicio
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
@@ -32,7 +36,6 @@ export class AuthService {
       const user = userCredential.user;  // Obtén el usuario registrado
 
       // Una vez registrado el usuario, guardamos su información en Firestore
-      // Pasamos el uid del usuario a la función guardarUsuario
       const userId = await this.firebaseService.guardarUsuario(user.uid, nombre, correo, rol);
       console.log("Usuario registrado y guardado en Firestore con ID:", userId);
 
@@ -48,6 +51,22 @@ export class AuthService {
     try {
       const userCredential = await signInWithEmailAndPassword(this.auth, correo, contrasena);
       console.log('Inicio de sesión exitoso:', userCredential);
+
+      const user = userCredential.user;
+      const email = user.email?.toLowerCase(); // Convertir el correo a minúsculas
+
+      // Redirigir a la vista según el dominio del correo
+      if (email?.includes('@profesor.cl')) {
+        // Si el correo tiene el dominio @profesor.cl, redirigir a "vista-profe"
+        this.router.navigate(['/vista-profe']);
+      } else if (email?.includes('@alumno.cl')) {
+        // Si el correo tiene el dominio @alumno.cl, redirigir a "vista-alumno"
+        this.router.navigate(['/vista-alumno']);
+      } else {
+        console.log('Correo no válido para redirección');
+        // Aquí puedes hacer algo en caso de que el correo no sea de los dominios permitidos
+      }
+
       return userCredential;  // Devuelve las credenciales del usuario
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
