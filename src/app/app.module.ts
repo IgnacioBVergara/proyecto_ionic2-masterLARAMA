@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
-
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-// Importa el servicio que inicializa Firebase
-import { FirebaseService } from './firebase.service';  // Asegúrate de importar el servicio
+// Importación de Firebase desde la API modular (Firebase v9+)
+import { initializeApp } from 'firebase/app';  // Para inicializar Firebase
+import { getFirestore } from 'firebase/firestore';  // Para Firestore
+import { getAuth } from 'firebase/auth';  // Para autenticación
 
-// Importa el módulo para formularios (para ngModel)
-import { FormsModule } from '@angular/forms';  // <-- Añadido para manejar ngModel
+import { environment } from '../environments/environment';  // Tu archivo de configuración de Firebase
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,12 +17,15 @@ import { FormsModule } from '@angular/forms';  // <-- Añadido para manejar ngMo
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    FormsModule  // <-- Añadido para formularios
+    // Inicialización de Firebase con la configuración
+    // Aquí inicializas Firebase con tu configuración del archivo environment.ts
   ],
-  providers: [
-    FirebaseService,  // Agrega el servicio a los proveedores
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-  ],
-  bootstrap: [AppComponent],
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    // Inicializa Firebase en la aplicación
+    initializeApp(environment.firebaseConfig);  // Usamos el método de inicialización
+  }
+}

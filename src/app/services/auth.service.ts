@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';  // Firebase Auth
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';  // Firebase Auth
 import { FirebaseService } from '../firebase.service'; // Servicio para guardar datos en Firestore
 
 @Injectable({
@@ -20,7 +20,7 @@ export class AuthService {
 
       // Una vez registrado el usuario, guardamos su información en Firestore
       // Pasamos el uid del usuario a la función guardarUsuario
-      const userId = await this.firebaseService.guardarUsuario(nombre, correo, rol);
+      const userId = await this.firebaseService.guardarUsuario(user.uid, nombre, correo, rol);
       console.log("Usuario registrado y guardado en Firestore con ID:", userId);
 
       return userCredential;  // Devuelve las credenciales del nuevo usuario

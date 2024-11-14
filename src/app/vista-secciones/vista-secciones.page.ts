@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular'; // Importa NavController
 import { Router } from '@angular/router'; // Importa Router
+import { getAuth } from 'firebase/auth'; // Para obtener el UID del profesor
 
 @Component({
   selector: 'app-vista-secciones',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router'; // Importa Router
 })
 export class VistaSeccionesPage implements OnInit {
 
-  constructor(private navController: NavController, private router: Router) { } // Inyecta NavController y Router
+  constructor(private navController: NavController, private router: Router) { }
 
   ngOnInit() {
     // Puedes añadir lógica inicial aquí si es necesario
@@ -19,8 +20,10 @@ export class VistaSeccionesPage implements OnInit {
     this.navController.back(); // Navega a la página anterior
   }
 
-  irAGenerarQR() {
-    this.router.navigate(['/vista-generarqr']); // Redirige a la vista-generarqr
+  // Esta función ahora recibe el nombre de la asignatura como parámetro
+  irAGenerarQR(asignatura: string) {
+    // Redirige a la página de generar QR con el parámetro 'asignatura'
+    this.router.navigate(['/vista-generarqr'], { queryParams: { asignatura } });
   }
 
   irASesiones() {

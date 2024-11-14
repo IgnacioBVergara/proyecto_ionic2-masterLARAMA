@@ -8,12 +8,15 @@ import { VistaGenerarqrPageRoutingModule } from './vista-generarqr-routing.modul
 
 import { VistaGenerarqrPage } from './vista-generarqr.page';
 
+import { QRCodeModule } from 'angularx-qrcode';  // Importa el módulo QRCodeModule
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VistaGenerarqrPageRoutingModule
+    VistaGenerarqrPageRoutingModule,
+    QRCodeModule
   ],
   declarations: [VistaGenerarqrPage]
 })

@@ -21,29 +21,30 @@
     </div>
   </div>
 
+  <!-- Cada botón ahora pasa el nombre de la asignatura -->
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR()">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR('Programación')">
       <ion-icon slot="start" name="book-outline"></ion-icon>
       Seccion D001 - Programación
     </ion-button>
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR()">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR('Diseño Web')">
       <ion-icon slot="start" name="book-outline"></ion-icon>
       Seccion D002 - Diseño Web
     </ion-button>
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR()">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR('Python')">
       <ion-icon slot="start" name="book-outline"></ion-icon>
       Seccion D003 - Python
     </ion-button>
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR()">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR('Oracle')">
       <ion-icon slot="start" name="book-outline"></ion-icon>
       Seccion D004 - Oracle
     </ion-button>
@@ -52,14 +53,13 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-buttons slot="secondary" class="footer-buttons">    
+    <ion-buttons slot="secondary" class="footer-buttons">
       <ion-button expand="full" (click)="irASesiones()">
         <ion-icon name="home" slot="icon-only"></ion-icon>
-      </ion-button>  
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
-
 
 <style>
   ion-content {

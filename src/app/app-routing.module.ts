@@ -49,11 +49,11 @@ const routes: Routes = [
   },
   {
     path: 'vista-proyectarqr',
-    loadChildren: () => import('./vista-proyectarqr/vista-proyectarqr.module').then( m => m.VistaProyectarqrPageModule)
+    loadChildren: () => import('./vista-proyectarqr/vista-proyectarqr.module').then( m => m.VistaProyectarqrPageModule) // Esta es la ruta donde proyectas el QR
   },
   {
     path: 'vista-generarqr',
-    loadChildren: () => import('./vista-generarqr/vista-generarqr.module').then( m => m.VistaGenerarqrPageModule)
+    loadChildren: () => import('./vista-generarqr/vista-generarqr.module').then( m => m.VistaGenerarqrPageModule) // Ruta para la generación del QR
   },
   {
     path: 'crearusuario',
@@ -79,7 +79,6 @@ const routes: Routes = [
     path: 'vista-registro',
     loadChildren: () => import('./vista-registro/vista-registro.module').then( m => m.VistaRegistroPageModule)
   },
-
 ];
 
 @NgModule({
