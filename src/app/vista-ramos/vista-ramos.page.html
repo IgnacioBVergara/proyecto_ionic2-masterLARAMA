@@ -22,28 +22,28 @@
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAAsistencia()">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAAsistencia('Programación')">
       <ion-icon slot="start" name="book-outline"></ion-icon>
       Programación
     </ion-button>
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAAsistencia()">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAAsistencia('Diseño')">
       <ion-icon slot="start" name="book-outline"></ion-icon>
       Diseño
     </ion-button>
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAAsistencia()">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAAsistencia('Software')">
       <ion-icon slot="start" name="book-outline"></ion-icon>
       Software
     </ion-button>
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAAsistencia()">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAAsistencia('Inglés')">
       <ion-icon slot="start" name="book-outline"></ion-icon>
       Inglés
     </ion-button>
@@ -64,8 +64,8 @@
   ion-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Asegura que el contenido ocupe el espacio restante */
-    height: 100%; /* Asegura que el ion-content ocupe todo el alto disponible */
+    justify-content: space-between;
+    height: 100%;
   }
 
   .footer-buttons {
@@ -75,8 +75,8 @@
   }
 
   ion-button {
-    --size: 60px; /* Ajusta el tamaño de los botones */
-    font-size: 1.5rem; /* Ajusta el tamaño de la fuente */
-    margin: 0 10px; /* Espaciado entre los botones */
+    --size: 60px;
+    font-size: 1.5rem;
+    margin: 0 10px;
   }
 </style>

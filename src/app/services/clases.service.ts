@@ -10,6 +10,7 @@ interface SesionQR {
   fechaGeneracion: any;  // Marca de tiempo de la fecha de generación (por ejemplo: Timestamp)
   qrUrl: string;  // URL del QR
   uidProfesor: string;  // UID del profesor que generó el QR
+  uidAlumno?: string; // UID del alumno (nuevo campo, si es necesario)
 }
 
 @Injectable({
@@ -28,14 +29,26 @@ export class ClasesService {
     const sesionesQRRef = collection(this.firestore, 'sesionesQR'); // Colección sesionesQR
     const q = query(sesionesQRRef, where('uidProfesor', '==', uidProfesor)); // Filtra por uidProfesor
 
-    // Usamos `from` para crear un observable y manejar la promesa de `getDocs`
     return from(getDocs(q).then(querySnapshot => {
-      const sesiones: SesionQR[] = [];  // Arreglo para almacenar las sesiones
+      const sesiones: SesionQR[] = [];
       querySnapshot.forEach(doc => {
-        // Aquí agregamos los datos del documento junto con el ID
         sesiones.push({ id: doc.id, ...doc.data() } as SesionQR);
       });
-      return sesiones;  // Retorna el arreglo de sesiones
+      return sesiones;
+    }));
+  }
+
+  // Método para obtener las sesiones QR de un alumno específico
+  obtenerSesionesQRPorAlumno(uidAlumno: string): Observable<SesionQR[]> {
+    const sesionesQRRef = collection(this.firestore, 'sesionesQR'); // Colección sesionesQR
+    const q = query(sesionesQRRef, where('uidAlumno', '==', uidAlumno)); // Filtra por uidAlumno
+
+    return from(getDocs(q).then(querySnapshot => {
+      const sesiones: SesionQR[] = [];
+      querySnapshot.forEach(doc => {
+        sesiones.push({ id: doc.id, ...doc.data() } as SesionQR);
+      });
+      return sesiones;
     }));
   }
 }

@@ -84,6 +84,15 @@ const routes: Routes = [
     loadChildren: () => import('./vista-detalles/vista-detalles.module').then(m => m.VistaDetallesPageModule)
   }
   ,
+  {
+    path: 'vista-asistencialumno',
+    loadChildren: () => import('./vista-asistencialumno/vista-asistencialumno.module').then( m => m.VistaAsistencialumnoPageModule)
+  },
+  {
+    path: 'vista-asistencialumno',
+    loadChildren: () => import('./vista-asistencialumno/vista-asistencialumno.module').then( m => m.VistaAsistencialumnoPageModule)
+  },
+
 ];
 
 @NgModule({
