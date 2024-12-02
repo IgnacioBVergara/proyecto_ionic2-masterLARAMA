@@ -98,9 +98,7 @@ export class VistaCamaraPage implements OnInit, AfterViewInit, OnDestroy {
     const uid = this.uid || "usuario_no_autenticado";  // UID predeterminado si no está disponible
     const correo = this.correoUsuario || "usuario@noautenticado.com";  // Correo predeterminado
     const nombre = this.nombreUsuario || "Usuario Sin Nombre";  // Nombre predeterminado
-    const telefono = "";  // Teléfono vacío por defecto
-    const direccion = "";  // Dirección vacía por defecto
-
+  
     // Crear el objeto con los datos del alumno usando la interfaz AlumnoData
     const alumnoData: AlumnoData = {
       uid: uid,  // UID del usuario (ahora predeterminado si no está disponible)
@@ -110,7 +108,7 @@ export class VistaCamaraPage implements OnInit, AfterViewInit, OnDestroy {
       rol: 'alumno',  // Rol del alumno
       estado: 'activo'  // Estado de la sesión (puede ser 'activo', 'completado', etc.)
     };
-
+  
     try {
       console.log("Guardando datos del alumno en Firestore...");
       // Guardar los datos en Firestore en la colección 'asistenciaqrree'

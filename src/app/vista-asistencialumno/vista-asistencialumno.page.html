@@ -10,14 +10,30 @@
 </ion-header>
 
 <ion-content class="colorcito" style="--background: linear-gradient(to bottom, #ADD8E6, #7FFFD4);">
-  <div *ngIf="sesiones.length === 0" style="text-align: center; margin-top: 20px;">
+  <!-- Mostrar datos del alumno, solo si alumnoData no es null -->
+  <div *ngIf="alumnoData">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ alumnoData.nombre }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Correo: {{ alumnoData.correo }}</p>
+        <p>Estado: {{ alumnoData.estado }}</p>
+        <p>Rol: {{ alumnoData.rol }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Mensaje cuando no se encuentran sesiones -->
+  <div *ngIf="sesionesQR.length === 0" style="text-align: center; margin-top: 20px;">
     <ion-label>No se encontraron sesiones para este alumno.</ion-label>
   </div>
 
-  <div *ngIf="sesiones.length > 0">
+  <!-- Mostrar sesiones si existen -->
+  <div *ngIf="sesionesQR.length > 0">
     <ion-list>
       <!-- Itera sobre el array de sesiones usando *ngFor -->
-      <ion-item *ngFor="let sesion of sesiones">
+      <ion-item *ngFor="let sesion of sesionesQR">
         <ion-avatar slot="start">
           <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" alt="Sesion Avatar" />
         </ion-avatar>
