@@ -37,6 +37,7 @@
     "angularx-qrcode": "^18.0.2",
     "firebase": "^11.0.1",
     "ionicons": "^7.0.0",
+    "jsqr": "^1.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
