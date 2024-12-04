@@ -36,15 +36,6 @@
     </application>
 
     <!-- Permissions -->
+
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- To get access to the camera. -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- To get access to the flashlight. -->
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-
-    <!-- Define features -->
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
 </manifest>
