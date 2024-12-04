@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getFirestore, doc, setDoc, collection, addDoc, getDocs, query, where } from 'firebase/firestore';  // Importar funciones necesarias
+import { getFirestore, doc, setDoc, collection, addDoc, getDocs, query, where, Timestamp } from 'firebase/firestore';  // Importar funciones necesarias
 import { initializeApp } from 'firebase/app';
 import { environment } from 'src/environments/environment';
 
@@ -67,6 +67,23 @@ export class FirebaseService {
       console.log('QR guardado con ID:', docRef.id);
     } catch (e) {
       console.error('Error al guardar la sesión QR en Firestore:', e);
+      throw e;
+    }
+  }
+
+  // Método para guardar los datos del escaneo QR
+  async guardarDatosEscaneo(uid: string, qrData: string, horaEscaneo: string): Promise<void> {
+    try {
+      // Guardamos los datos del escaneo QR en la colección "escaneosQR"
+      const docRef = await addDoc(collection(this.db, 'escaneosQR'), {
+        uidUsuario: uid,          // UID del usuario que escaneó el QR
+        qrData: qrData,           // El contenido del QR escaneado
+        horaEscaneo: horaEscaneo, // Hora del escaneo
+        timestamp: Timestamp.now() // Fecha y hora exacta en Firestore
+      });
+      console.log('Datos de escaneo guardados con ID:', docRef.id);
+    } catch (e) {
+      console.error('Error al guardar los datos del escaneo en Firestore:', e);
       throw e;
     }
   }
