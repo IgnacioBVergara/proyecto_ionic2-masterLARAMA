@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<ion-header class="ion-no-border"> 
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="volverAtras()" fill="clear">
@@ -12,24 +12,32 @@
 </ion-header>
 
 <ion-content class="colorcito" style="--background: linear-gradient(to bottom, #ADD8E6, #7FFFD4);">
-  <!-- Mostrar datos del alumno, solo si alumnoData no es null -->
-  <div *ngIf="alumnoData">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>{{ alumnoData.nombre }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Correo: {{ alumnoData.correo }}</p>
-        <p>Estado: {{ alumnoData.estado }}</p>
-        <p>Rol: {{ alumnoData.rol }}</p>
-      </ion-card-content>
-    </ion-card>
+  <!-- Mostrar datos del alumno, solo si alumnoData es un array y tiene elementos -->
+  <div *ngIf="isAlumnoDataArray">
+    <!-- Iterar sobre el array de alumnoData si tiene más de un registro -->
+    <div *ngFor="let alumno of alumnoData">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ alumno.nombre }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Correo: {{ alumno.correo }}</p>
+          <p>Estado: {{ alumno.estado }}</p>
+          <p>Rol: {{ alumno.rol }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Mensaje cuando no se encuentran datos del alumno -->
+  <div *ngIf="!isAlumnoDataArray" style="text-align: center; margin-top: 20px;">
+    <ion-label>No se encontraron datos del alumno.</ion-label>
   </div>
 
   <!-- Mensaje cuando no se encuentran sesiones -->
-  <div *ngIf="sesionesQR.length === 0" style="text-align: center; margin-top: 20px;">
+  <!-- <div *ngIf="sesionesQR.length === 0" style="text-align: center; margin-top: 20px;">
     <ion-label>No se encontraron sesiones para este alumno.</ion-label>
-  </div>
+  </div> -->
 
   <!-- Mostrar sesiones si existen -->
   <div *ngIf="sesionesQR.length > 0">
@@ -41,7 +49,7 @@
         </ion-avatar>
         <ion-label style="display: block; margin-top: 10px; font-size: 18px; font-weight: bold;">
           {{ sesion.asignatura || 'Asignatura no definida' }} - 
-          {{ sesion.fechaGeneracion.toDate() | date: 'dd/MM/yyyy, h:mm a' }} <!-- Muestra la fecha correctamente -->
+          {{ sesion.fechaGeneracion.toDate() | date: 'dd/MM/yyyy, h:mm a' }}
         </ion-label>
         <div style="font-size: 14px; display: flex; justify-content: center; align-items: center; margin-top: 5px;">
           <ion-icon name="location-outline" style="margin-right: 5px;"></ion-icon>
@@ -66,7 +74,6 @@
   <ion-toolbar>
     <ion-buttons slot="secondary" class="footer-buttons">
       <ion-button expand="full" (click)="irASesiones()">
-        Volver a Sesiones
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -90,5 +97,9 @@
     --size: 60px;
     font-size: 1.5rem;
     margin: 0 10px;
+  }
+
+  ion-card {
+    margin-bottom: 20px;
   }
 </style>

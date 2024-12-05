@@ -13,9 +13,10 @@ import { SesionQR } from '../services/clases.service';
 export class VistaAsistencialumnoPage implements OnInit {
 
   uidAlumno: string = '';
-  alumnoData: AlumnoData | null = null;
+  alumnoData: AlumnoData[] | null = null;
   sesionesQR: SesionQR[] = [];
   isLoading: boolean = false;
+  isAlumnoDataArray: boolean = false; // Propiedad para verificar si alumnoData es un array válido
 
   constructor(
     private navController: NavController,
@@ -36,23 +37,13 @@ export class VistaAsistencialumnoPage implements OnInit {
     this.cargarDatosAsistencia();
   }
 
-  cargarDatosAsistencia() {
-    this.clasesService.obtenerDatosDeAsistencia().subscribe({
-      next: (datos) => {
-        this.alumnoData = datos.find(alumno => alumno.uid === this.uidAlumno) || null;
-        console.log('Datos de asistencia:', this.alumnoData);
-      },
-      error: (err) => {
-        console.error('Error al obtener datos de asistencia:', err);
-      }
-    });
-  }
-
   cargarDatosAlumno() {
     this.isLoading = true;
     this.clasesService.obtenerDatosAlumno(this.uidAlumno).subscribe({
       next: (alumno) => {
-        this.alumnoData = alumno;
+        // Aseguramos que alumnoData siempre sea un array, incluso si es un solo alumno
+        this.alumnoData = Array.isArray(alumno) ? alumno : [alumno];
+        this.isAlumnoDataArray = Array.isArray(this.alumnoData) && this.alumnoData.length > 0; // Verifica si es un array no vacío
         this.isLoading = false;
         console.log('Datos del alumno:', this.alumnoData);
       },
@@ -63,6 +54,21 @@ export class VistaAsistencialumnoPage implements OnInit {
     });
   }
 
+  cargarDatosAsistencia() {
+    this.clasesService.obtenerDatosDeAsistencia().subscribe({
+      next: (datos) => {
+        // Si se encuentra un solo alumno, se convierte en un array
+        const alumno = datos.find(alumno => alumno.uid === this.uidAlumno) || null;
+        this.alumnoData = alumno ? [alumno] : null; // Asegurarse de que alumnoData sea un array
+        this.isAlumnoDataArray = Array.isArray(this.alumnoData) && this.alumnoData.length > 0;
+        console.log('Datos de asistencia:', this.alumnoData);
+      },
+      error: (err) => {
+        console.error('Error al obtener datos de asistencia:', err);
+      }
+    });
+  }
+  
   cargarSesionesQR() {
     this.clasesService.obtenerSesionesQRPorAlumno(this.uidAlumno).subscribe({
       next: (sesiones) => {

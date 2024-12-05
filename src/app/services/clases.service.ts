@@ -66,7 +66,7 @@ export class ClasesService {
   }
 
   // Método para obtener los datos del alumno a partir del UID
-  obtenerDatosAlumno(uidAlumno: string): Observable<AlumnoData | null> {
+  obtenerDatosAlumno(uidAlumno: string): Observable<AlumnoData[]> { // Cambié el tipo a AlumnoData[] (array)
     const alumnoRef = doc(this.firestore, 'alumnos', uidAlumno); // Referencia al documento del alumno
     return from(getDoc(alumnoRef).then(docSnap => {
       if (docSnap.exists()) {
@@ -77,21 +77,21 @@ export class ClasesService {
           // Convertimos 'fecha' a Timestamp si no lo es ya
           const fecha = this.convertirAFirebaseTimestamp(data.fecha);
 
-          return {
+          return [{
             uid: data.uid,
             nombre: data.nombre,
             correo: data.correo,
             fecha: fecha,  // Aseguramos que fecha es un Timestamp
             rol: data.rol,
             estado: data.estado
-          } as AlumnoData;
+          }] as AlumnoData[];  // Envolvemos el objeto en un array
         } else {
           console.error('Datos del alumno incompletos o inválidos', data);
-          return null;  // Si los datos son incorrectos o incompletos, retorna null
+          return [];  // Retorna un array vacío si los datos son incorrectos
         }
       } else {
         console.log('No se encontró el alumno');
-        return null;  // Si no existe el documento, retornamos null
+        return [];  // Retorna un array vacío si no existe el documento
       }
     }));
   }
