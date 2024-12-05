@@ -32,6 +32,7 @@ export class VistaCamaraPage implements OnInit {
   async iniciarEscaneoQR() {
     // Verificamos si el dispositivo soporta el escáner
     const isSupported = await BarcodeScanner.isSupported();
+    console.log('Soporte de escáner en el dispositivo:', isSupported);  // Mostrar si el dispositivo soporta el escáner
     if (!isSupported) {
       this.presentAlert('Este dispositivo no soporta escaneo de códigos QR.');
       return;
@@ -39,6 +40,7 @@ export class VistaCamaraPage implements OnInit {
 
     // Solicitamos permisos antes de proceder
     const granted = await this.requestPermissions();
+    console.log('Permisos de cámara otorgados:', granted);  // Mostrar si los permisos de cámara han sido otorgados
     if (!granted) {
       this.presentAlert('Permiso denegado. Por favor habilita el acceso a la cámara.');
       return;
@@ -46,10 +48,12 @@ export class VistaCamaraPage implements OnInit {
 
     // Ocultamos los elementos de la UI mientras escaneamos
     document.querySelector('body')?.classList.add('barcode-scanner-active');
+    console.log('Iniciando el escaneo...');  // Indicar que se está iniciando el escaneo
 
     try {
       // Iniciamos el escaneo y esperamos el resultado
       const { barcodes } = await BarcodeScanner.scan();
+      console.log('Resultado del escaneo:', barcodes);  // Mostrar el resultado del escaneo
 
       if (barcodes && barcodes.length > 0) {
         const result = barcodes[0].rawValue;  // Usamos 'rawValue' en lugar de 'data'
@@ -61,9 +65,10 @@ export class VistaCamaraPage implements OnInit {
         // Detenemos el escaneo
         await BarcodeScanner.stopScan();
         document.querySelector('body')?.classList.remove('barcode-scanner-active');
+        console.log('Escaneo detenido');  // Confirmación de que el escaneo ha terminado
       }
     } catch (error) {
-      console.error('Error al iniciar el escaneo:', error);
+      console.error('Error al iniciar el escaneo:', error);  // Mostrar cualquier error que ocurra al intentar iniciar el escaneo
       document.querySelector('body')?.classList.remove('barcode-scanner-active');
     }
   }
@@ -81,11 +86,14 @@ export class VistaCamaraPage implements OnInit {
       const uidProfesor = partesQR[4];  // Suponiendo que la URL tiene la forma 'https://example.com/escaneo/{uid}/{asignatura}'
       const asignatura = partesQR[5];
 
+      console.log('Usuario autenticado:', user.uid);  // Mostrar el UID del usuario autenticado
+      console.log('Datos del QR:', qrData);  // Mostrar los datos extraídos del QR antes de guardarlos
+
       // Llamamos al servicio para guardar los datos en Firestore
       await this.firebaseService.guardarDatosEscaneo(user.uid, uidProfesor, asignatura,"a");
-      console.log('Datos de escaneo guardados correctamente');
+      console.log('Datos de escaneo guardados correctamente');  // Confirmar que los datos se guardaron correctamente
     } else {
-      console.log('No hay usuario autenticado');
+      console.log('No hay usuario autenticado');  // Mostrar si no hay usuario autenticado
     }
   }
 
@@ -101,21 +109,25 @@ export class VistaCamaraPage implements OnInit {
     }
     await BarcodeScanner.stopScan();
     document.querySelector('body')?.classList.remove('barcode-scanner-active');
+    console.log('Escaneo detenido manualmente');
   }
 
   // Método para habilitar la linterna (si es necesario)
   async activarLinterna() {
     await BarcodeScanner.enableTorch();
+    console.log('Linterna activada');
   }
 
   // Método para deshabilitar la linterna (si es necesario)
   async desactivarLinterna() {
     await BarcodeScanner.disableTorch();
+    console.log('Linterna desactivada');
   }
 
   // Método para solicitar permisos de la cámara
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
+    console.log('Estado de los permisos de cámara:', camera);  // Imprimir el estado de los permisos
     return camera === 'granted' || camera === 'limited';
   }
 
