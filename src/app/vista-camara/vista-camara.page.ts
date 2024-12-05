@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { BrowserMultiFormatReader } from '@zxing/library';  // Importación correcta de la librería ZXing
-import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore';  // API modular de Firestore
+import { getFirestore, collection, addDoc, Timestamp, doc, getDoc } from 'firebase/firestore';  // API modular de Firestore
 import { initializeApp } from 'firebase/app';  // Inicialización de Firebase
 import { getAuth, onAuthStateChanged } from 'firebase/auth';  // Autenticación de Firebase
 import { environment } from '../../environments/environment';  // Configuración de Firebase
@@ -33,6 +33,8 @@ export class VistaCamaraPage implements OnInit, AfterViewInit, OnDestroy {
   private nombreUsuario: string | null = null;  // Nombre del usuario
   private usuarioCargado: boolean = false; // Indica si el usuario ya está completamente cargado
 
+  public alumnoData: AlumnoData | null = null;  // Propiedad alumnoData
+
   constructor(private navController: NavController) {
     // Inicializa Firebase
     initializeApp(environment.firebaseConfig);  // Usamos el entorno de configuración de Firebase
@@ -50,20 +52,53 @@ export class VistaCamaraPage implements OnInit, AfterViewInit, OnDestroy {
   // Función para obtener el usuario autenticado
   obtenerUsuarioAutenticado() {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {  // Hacemos esta función asíncrona
       if (user) {
         this.uid = user.uid;
         this.correoUsuario = user.email;  // Obtener el correo del usuario
-        this.nombreUsuario = user.displayName;  // Obtener el nombre del usuario (si está disponible)
         this.usuarioAutenticado = true;
         this.usuarioCargado = true;  // Indicamos que el usuario ha sido cargado correctamente
         console.log("Usuario autenticado:", user.email);
+  
+        // Obtener el nombre del usuario desde la colección 'usuarios' en Firestore
+        await this.obtenerNombreUsuario(user.uid);  // Esperamos que se cargue el nombre
+  
+        console.log("Nombre del usuario:", this.nombreUsuario);  // Asegúrate de que el nombre esté disponible
       } else {
         this.usuarioAutenticado = false;
         this.usuarioCargado = true;  // También indicamos que el estado de autenticación ha finalizado
         console.log("No hay usuario autenticado.");
       }
     });
+  }
+  
+  // Obtener el nombre del usuario desde la colección 'usuarios' en Firestore
+  async obtenerNombreUsuario(uid: string) {
+    try {
+      const docRef = doc(this.firestore, 'usuarios', uid);
+      const docSnap = await getDoc(docRef);
+  
+      if (docSnap.exists()) {
+        this.nombreUsuario = docSnap.data()?.['nombre'] || "Usuario Sin Nombre";
+      } else {
+        console.log("No se encontró el documento del usuario en la colección 'usuarios'.");
+        this.nombreUsuario = "Usuario Sin Nombre";  // Asignar nombre predeterminado si no se encuentra
+      }
+  
+      // Asignar los datos del usuario a alumnoData
+      this.alumnoData = {
+        uid: this.uid || "usuario_no_autenticado",  // Si el uid no está disponible, asignar uno predeterminado
+        correo: this.correoUsuario || "usuario@noautenticado.com",  // Si el correo no está disponible, asignar uno predeterminado
+        nombre: this.nombreUsuario || "Usuario Sin Nombre",  // Si el nombre no está disponible, asignar uno predeterminado
+        fecha: Timestamp.fromDate(new Date()),  // Asignar la fecha de creación
+        rol: 'alumno',  // El rol puede estar predeterminado
+        estado: 'activo'  // El estado también puede ser 'activo' inicialmente
+      };
+  
+    } catch (error) {
+      console.error("Error al obtener el nombre del usuario:", error);
+      this.nombreUsuario = "Usuario Sin Nombre";  // Asignar nombre predeterminado en caso de error
+    }
   }
 
   ngOnInit() {
@@ -94,11 +129,17 @@ export class VistaCamaraPage implements OnInit, AfterViewInit, OnDestroy {
 
   // Función para guardar los datos del alumno en la nueva colección 'asistenciaqrree'
   async guardarDatosAlumno() {
-    // Usamos valores predeterminados si los datos no están disponibles
+    // Verificar si el usuario está completamente cargado
+    if (!this.usuarioCargado) {
+      alert('Asegúrate de estar autenticado antes de proceder.');
+      return;
+    }
+
+    // Usar valores predeterminados si los datos no están disponibles
     const uid = this.uid || "usuario_no_autenticado";  // UID predeterminado si no está disponible
     const correo = this.correoUsuario || "usuario@noautenticado.com";  // Correo predeterminado
     const nombre = this.nombreUsuario || "Usuario Sin Nombre";  // Nombre predeterminado
-  
+
     // Crear el objeto con los datos del alumno usando la interfaz AlumnoData
     const alumnoData: AlumnoData = {
       uid: uid,  // UID del usuario (ahora predeterminado si no está disponible)
@@ -108,7 +149,7 @@ export class VistaCamaraPage implements OnInit, AfterViewInit, OnDestroy {
       rol: 'alumno',  // Rol del alumno
       estado: 'activo'  // Estado de la sesión (puede ser 'activo', 'completado', etc.)
     };
-  
+
     try {
       console.log("Guardando datos del alumno en Firestore...");
       // Guardar los datos en Firestore en la colección 'asistenciaqrree'
@@ -155,28 +196,27 @@ export class VistaCamaraPage implements OnInit, AfterViewInit, OnDestroy {
       this.codeReader.decodeFromVideoDevice(null, video, (result, err) => {
         if (result) {
           console.log('Código QR escaneado: ', result.getText());
-          // Guardar los datos del alumno si se escanea correctamente
+          // Guardar los datos del alumno si se escanea un código QR válido
           this.guardarDatosAlumno();
-          this.detenerEscaneoQR();  // Detener escaneo después de leer el QR
         }
+
         if (err) {
-          console.error('Error al leer el QR: ', err);
+          console.error('Error en el escaneo: ', err);
         }
       });
     } catch (error) {
-      console.error('Error al acceder a la cámara: ', error);
-      alert('No se pudo acceder a la cámara. Asegúrate de que está habilitada.');
+      console.error('Error al iniciar el escaneo QR: ', error);
+      alert('Error al iniciar el escaneo QR. Asegúrate de que la cámara esté funcionando correctamente.');
     }
   }
 
-  // Detener el escaneo y liberar los recursos
-  async detenerEscaneoQR() {
-    this.scanning = false;
-    const video = this.video.nativeElement;
-    const stream = video.srcObject as MediaStream;
-    const tracks = stream?.getTracks();
-    tracks?.forEach(track => track.stop());  // Detener la cámara
-
-    video.srcObject = null;  // Liberar el video
+  // Detener escaneo
+  detenerEscaneoQR() {
+    if (this.video && this.video.nativeElement.srcObject) {
+      const stream = this.video.nativeElement.srcObject;
+      const tracks = stream.getTracks();
+      tracks.forEach((track: MediaStreamTrack) => track.stop());  // Detener todas las pistas de video
+      this.scanning = false;  // Cambiar el estado de escaneo a falso
+    }
   }
 }
