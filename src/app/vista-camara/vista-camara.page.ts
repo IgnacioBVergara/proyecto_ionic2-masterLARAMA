@@ -60,8 +60,13 @@ export class VistaCamaraPage implements OnInit {
     if (user) {
       const horaEscaneo = new Date().toISOString(); // Hora del escaneo
 
+      // Aquí extraemos la información del QR (suponiendo que el QR contiene una URL con los datos)
+      const partesQR = qrData.split('/'); // Dividimos la URL en partes para obtener el UID del profesor y la asignatura
+      const uidProfesor = partesQR[4];  // Suponiendo que la URL tiene la forma 'https://example.com/escaneo/{uid}/{asignatura}'
+      const asignatura = partesQR[5];
+
       // Llamamos al servicio para guardar los datos en Firestore
-      await this.firebaseService.guardarDatosEscaneo(user.uid, qrData, horaEscaneo);
+      await this.firebaseService.guardarDatosEscaneo(user.uid, uidProfesor, asignatura,"a");
       console.log('Datos de escaneo guardados correctamente');
     } else {
       console.log('No hay usuario autenticado');

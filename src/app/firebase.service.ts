@@ -72,12 +72,13 @@ export class FirebaseService {
   }
 
   // Método para guardar los datos del escaneo QR
-  async guardarDatosEscaneo(uid: string, qrData: string, horaEscaneo: string): Promise<void> {
+  async guardarDatosEscaneo(uid: string, uidProfesor: string, asignatura: string, horaEscaneo: string): Promise<void> {
     try {
       // Guardamos los datos del escaneo QR en la colección "escaneosQR"
       const docRef = await addDoc(collection(this.db, 'escaneosQR'), {
         uidUsuario: uid,          // UID del usuario que escaneó el QR
-        qrData: qrData,           // El contenido del QR escaneado
+        uidProfesor: uidProfesor, // UID del profesor relacionado con la asignatura
+        asignatura: asignatura,   // La asignatura asociada al QR
         horaEscaneo: horaEscaneo, // Hora del escaneo
         timestamp: Timestamp.now() // Fecha y hora exacta en Firestore
       });
