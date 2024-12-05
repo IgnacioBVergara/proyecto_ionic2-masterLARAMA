@@ -12,12 +12,16 @@ import { getFirestore } from 'firebase/firestore';
 // Importación de la configuración de Firebase desde environment.ts
 import { environment } from '../environments/environment';
 
+// Importación de Ionic Storage
+import { IonicStorageModule } from '@ionic/storage-angular';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    IonicStorageModule.forRoot()  // Importamos el módulo de almacenamiento
   ],
   providers: [],
   bootstrap: [AppComponent]
