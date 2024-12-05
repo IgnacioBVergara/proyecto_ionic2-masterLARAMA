@@ -57,10 +57,9 @@ export class VistaAsistencialumnoPage implements OnInit {
   cargarDatosAsistencia() {
     this.clasesService.obtenerDatosDeAsistencia().subscribe({
       next: (datos) => {
-        // Si se encuentra un solo alumno, se convierte en un array
-        const alumno = datos.find(alumno => alumno.uid === this.uidAlumno) || null;
-        this.alumnoData = alumno ? [alumno] : null; // Asegurarse de que alumnoData sea un array
-        this.isAlumnoDataArray = Array.isArray(this.alumnoData) && this.alumnoData.length > 0;
+        // Filtramos los datos para encontrar solo los registros del alumno actual
+        this.alumnoData = datos.filter(alumno => alumno.uid === this.uidAlumno) || [];
+        this.isAlumnoDataArray = this.alumnoData.length > 0; // Verifica si hay registros
         console.log('Datos de asistencia:', this.alumnoData);
       },
       error: (err) => {
@@ -68,7 +67,7 @@ export class VistaAsistencialumnoPage implements OnInit {
       }
     });
   }
-  
+
   cargarSesionesQR() {
     this.clasesService.obtenerSesionesQRPorAlumno(this.uidAlumno).subscribe({
       next: (sesiones) => {

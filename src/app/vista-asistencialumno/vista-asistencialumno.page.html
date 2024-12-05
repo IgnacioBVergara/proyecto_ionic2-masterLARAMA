@@ -12,9 +12,9 @@
 </ion-header>
 
 <ion-content class="colorcito" style="--background: linear-gradient(to bottom, #ADD8E6, #7FFFD4);">
-  <!-- Mostrar datos del alumno, solo si alumnoData es un array y tiene elementos -->
+  <!-- Mostrar los datos de asistencia, iterando sobre alumnoData -->
   <div *ngIf="isAlumnoDataArray">
-    <!-- Iterar sobre el array de alumnoData si tiene más de un registro -->
+    <!-- Iterar sobre el array de alumnoData -->
     <div *ngFor="let alumno of alumnoData">
       <ion-card>
         <ion-card-header>
@@ -31,13 +31,8 @@
 
   <!-- Mensaje cuando no se encuentran datos del alumno -->
   <div *ngIf="!isAlumnoDataArray" style="text-align: center; margin-top: 20px;">
-    <ion-label>No se encontraron datos del alumno.</ion-label>
+    <ion-label>No se encontraron datos de asistencia para este alumno.</ion-label>
   </div>
-
-  <!-- Mensaje cuando no se encuentran sesiones -->
-  <!-- <div *ngIf="sesionesQR.length === 0" style="text-align: center; margin-top: 20px;">
-    <ion-label>No se encontraron sesiones para este alumno.</ion-label>
-  </div> -->
 
   <!-- Mostrar sesiones si existen -->
   <div *ngIf="sesionesQR.length > 0">
@@ -74,6 +69,7 @@
   <ion-toolbar>
     <ion-buttons slot="secondary" class="footer-buttons">
       <ion-button expand="full" (click)="irASesiones()">
+        Volver a Sesiones
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
