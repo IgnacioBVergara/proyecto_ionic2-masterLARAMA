@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';  // Importa el plugin correcto
+import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';  // Asegúrate de tener la importación correcta
 import { FirebaseService } from '../firebase.service';
 import { getAuth } from 'firebase/auth';
+import { AlertController } from '@ionic/angular';  // Importamos el AlertController para mostrar alertas
 
 @Component({
   selector: 'app-vista-camara',
@@ -12,7 +13,11 @@ import { getAuth } from 'firebase/auth';
 export class VistaCamaraPage implements OnInit {
   private scanListener: any;
 
-  constructor(private navController: NavController, private firebaseService: FirebaseService) {}
+  constructor(
+    private navController: NavController,
+    private firebaseService: FirebaseService,
+    private alertController: AlertController // Agregado para mostrar alertas
+  ) {}
 
   ngOnInit() {
     // Inicialización si es necesario
@@ -25,27 +30,38 @@ export class VistaCamaraPage implements OnInit {
 
   // Método para iniciar el escaneo de código QR
   async iniciarEscaneoQR() {
+    // Verificamos si el dispositivo soporta el escáner
+    const isSupported = await BarcodeScanner.isSupported();
+    if (!isSupported) {
+      this.presentAlert('Este dispositivo no soporta escaneo de códigos QR.');
+      return;
+    }
+
+    // Solicitamos permisos antes de proceder
+    const granted = await this.requestPermissions();
+    if (!granted) {
+      this.presentAlert('Permiso denegado. Por favor habilita el acceso a la cámara.');
+      return;
+    }
+
     // Ocultamos los elementos de la UI mientras escaneamos
     document.querySelector('body')?.classList.add('barcode-scanner-active');
 
     try {
-      // Agregamos el listener para el evento 'barcodeScanned'
-      this.scanListener = await BarcodeScanner.addListener('barcodeScanned', async (result) => {
-        console.log('QR Escaneado:', result.barcode);  // Cambié a 'value' según la documentación
+      // Iniciamos el escaneo y esperamos el resultado
+      const { barcodes } = await BarcodeScanner.scan();
 
-        // Aseguramos que el valor sea una cadena
-        const qrData = String(result.barcode);  // Convertir a string, por si acaso el tipo de datos no es string
+      if (barcodes && barcodes.length > 0) {
+        const result = barcodes[0].rawValue;  // Usamos 'rawValue' en lugar de 'data'
+        console.log('QR Escaneado:', result);  // El valor escaneado
 
         // Guardamos la asistencia utilizando el contenido del QR
-        await this.guardarAsistenciaEscaneo(qrData);  // Pasa el valor correcto del QR
+        await this.guardarAsistenciaEscaneo(result);
 
         // Detenemos el escaneo
         await BarcodeScanner.stopScan();
         document.querySelector('body')?.classList.remove('barcode-scanner-active');
-      });
-
-      // Iniciamos el escaneo
-      await BarcodeScanner.startScan();
+      }
     } catch (error) {
       console.error('Error al iniciar el escaneo:', error);
       document.querySelector('body')?.classList.remove('barcode-scanner-active');
@@ -75,8 +91,7 @@ export class VistaCamaraPage implements OnInit {
 
   // Método para navegar a la página de sesiones
   irASesiones() {
-    // Lógica para navegar a la página de sesiones
-    this.navController.navigateForward('/sesiones');  // Redirige a la página de sesiones
+    this.navController.navigateForward('/sesiones');
   }
 
   // Método para detener el escaneo (opcional si lo necesitas)
@@ -96,5 +111,21 @@ export class VistaCamaraPage implements OnInit {
   // Método para deshabilitar la linterna (si es necesario)
   async desactivarLinterna() {
     await BarcodeScanner.disableTorch();
+  }
+
+  // Método para solicitar permisos de la cámara
+  async requestPermissions(): Promise<boolean> {
+    const { camera } = await BarcodeScanner.requestPermissions();
+    return camera === 'granted' || camera === 'limited';
+  }
+
+  // Método para mostrar alertas de errores
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message: message,
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 }
