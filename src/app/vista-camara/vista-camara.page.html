@@ -11,15 +11,14 @@
 
 <ion-content class="colorcito" style="--background: linear-gradient(to bottom, #ADD8E6, #7FFFD4);">
   <div style="text-align: center; margin: 20px 0;">
-    <ion-label style="display: block; margin-top: 10px; font-size: 24px; font-weight: bold;">ESCANEAMEEE ESTE OTRO código QR</ion-label>
+    <ion-label style="display: block; margin-top: 10px; font-size: 24px; font-weight: bold;">Escanea el código QR</ion-label>
     <div style="font-size: 14px; display: flex; justify-content: center; align-items: center; margin-top: 5px;">
       <ion-icon name="location-outline" style="margin-right: 5px;"></ion-icon>
       <span>Sede San Andrés, Concepción</span>
     </div>
   </div>
 
-  <br>
-  <br>
+  <br><br>
 
   <!-- Botón para iniciar el escaneo -->
   <div style="text-align: center; margin-top: 20px;">
@@ -27,5 +26,10 @@
       <ion-icon name="scan" slot="start"></ion-icon>
       Iniciar Escaneo
     </ion-button>
+  </div>
+
+  <!-- Mostrar el contenido del código QR escaneado -->
+  <div *ngIf="qrCodeContent" style="text-align: center; margin-top: 20px;">
+    <ion-label>Resultado: {{ qrCodeContent }}</ion-label>
   </div>
 </ion-content>
