@@ -19,17 +19,15 @@
   </div>
 
   <br><br>
-
-  <!-- Botón para iniciar el escaneo -->
-  <div style="text-align: center; margin-top: 20px;">
-    <ion-button (click)="iniciarEscaneoQR()" color="primary">
-      <ion-icon name="scan" slot="start"></ion-icon>
-      Iniciar Escaneo
-    </ion-button>
-  </div>
-
-  <!-- Mostrar el contenido del código QR escaneado -->
-  <div *ngIf="qrCodeContent" style="text-align: center; margin-top: 20px;">
-    <ion-label>Resultado: {{ qrCodeContent }}</ion-label>
-  </div>
 </ion-content>
+
+<ion-content [fullscreen]="true" *ngIf="!qr.scan">
+  <h2>RESULTADO: {{qr.scanResult}}</h2>
+</ion-content>
+
+
+<ion-footer>
+  <ion-button id="btn_qr" (click)="Scaneo()">
+    ESCANEAR
+  </ion-button>
+</ion-footer>
