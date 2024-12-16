@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Router } from '@angular/router'; // Importa Router si lo necesitas
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vista-asistencia-secciones',
@@ -8,19 +8,25 @@ import { Router } from '@angular/router'; // Importa Router si lo necesitas
   styleUrls: ['./vista-asistencia-secciones.page.scss'],
 })
 export class VistaAsistenciaSeccionesPage implements OnInit {
+  asignaturas: { nombre: string, seccion: string }[] = [];
 
-  constructor(private navController: NavController, private router: Router) { } // Inyecta Router si lo necesitas
+  constructor(private navController: NavController, private router: Router) {}
 
   ngOnInit() {
-  }
-
-  irAAsistencia(seccion: string) {
-    // Navegar a la vista de asistencia de la sección correspondiente
-    this.router.navigate([`/vista-asistencia`], { queryParams: { seccion } }); // Cambia la ruta si es necesario
+    // Cargar las asignaturas desde localStorage
+    const storedAsignaturas = localStorage.getItem('asignaturas');
+    if (storedAsignaturas) {
+      this.asignaturas = JSON.parse(storedAsignaturas);
+    }
   }
 
   volverAtras() {
     this.navController.back();
+  }
+
+  irAGenerarQR(nombre: string) {
+    // Lógica para generar el QR o navegar a la vista correspondiente
+    console.log('Generar QR para: ' + nombre);
   }
 
   irASesiones() {
