@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular'; // Importa NavController
-import { Router } from '@angular/router'; // Importa Router
-import { getAuth } from 'firebase/auth'; // Para obtener el UID del profesor
+import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vista-secciones',
@@ -9,25 +8,27 @@ import { getAuth } from 'firebase/auth'; // Para obtener el UID del profesor
   styleUrls: ['./vista-secciones.page.scss'],
 })
 export class VistaSeccionesPage implements OnInit {
+  asignaturas: { nombre: string; seccion: string }[] = []; // Array para almacenar las asignaturas
 
   constructor(private navController: NavController, private router: Router) { }
 
   ngOnInit() {
-    // Puedes añadir lógica inicial aquí si es necesario
+    // Recuperamos el array de asignaturas desde localStorage
+    const asignaturasGuardadas = JSON.parse(localStorage.getItem('asignaturas') || '[]');
+    
+    // Asignamos el array recuperado a la variable asignaturas
+    this.asignaturas = asignaturasGuardadas;
   }
 
   volverAtras() {
-    this.navController.back(); // Navega a la página anterior
+    this.navController.back(); // Regresa a la página anterior
   }
 
-  // Esta función ahora recibe el nombre de la asignatura como parámetro
   irAGenerarQR(asignatura: string) {
-    // Redirige a la página de generar QR con el parámetro 'asignatura'
     this.router.navigate(['/vista-generarqr'], { queryParams: { asignatura } });
   }
 
   irASesiones() {
-    // Navega a la vista de sesiones
-    this.navController.navigateForward('/sesiones'); // Asegúrate de que esta ruta esté configurada
+    this.navController.navigateForward('/sesiones'); // Navega a la vista de sesiones
   }
 }

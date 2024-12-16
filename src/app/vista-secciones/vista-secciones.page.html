@@ -21,32 +21,11 @@
     </div>
   </div>
 
-  <!-- Cada botón ahora pasa el nombre de la asignatura -->
-  <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR('Programación')">
+  <!-- Mostrar cada botón generado dinámicamente -->
+  <div *ngFor="let asignatura of asignaturas" style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
+    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR(asignatura.nombre)">
       <ion-icon slot="start" name="book-outline"></ion-icon>
-      Seccion D001 - Programación
-    </ion-button>
-  </div>
-
-  <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR('Diseño Web')">
-      <ion-icon slot="start" name="book-outline"></ion-icon>
-      Seccion D002 - Diseño Web
-    </ion-button>
-  </div>
-
-  <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR('Python')">
-      <ion-icon slot="start" name="book-outline"></ion-icon>
-      Seccion D003 - Python
-    </ion-button>
-  </div>
-
-  <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
-    <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irAGenerarQR('Oracle')">
-      <ion-icon slot="start" name="book-outline"></ion-icon>
-      Seccion D004 - Oracle
+      Sección {{ asignatura.seccion }} - {{ asignatura.nombre }}
     </ion-button>
   </div>
 </ion-content>
@@ -55,7 +34,6 @@
   <ion-toolbar>
     <ion-buttons slot="secondary" class="footer-buttons">
       <ion-button expand="full" (click)="irASesiones()">
-        
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
