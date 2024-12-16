@@ -20,15 +20,19 @@ export class VistaAsistenciaSeccionesPage implements OnInit {
     }
   }
 
+  // Método para ir atrás
   volverAtras() {
     this.navController.back();
   }
 
+  // Método para generar el QR y navegar a la vista de asistencia
   irAGenerarQR(nombre: string) {
-    // Lógica para generar el QR o navegar a la vista correspondiente
+    // Aquí navegamos a la vista de asistencia, pasando los parámetros necesarios
+    this.router.navigate(['/vista-asistencia'], { queryParams: { nombre } });
     console.log('Generar QR para: ' + nombre);
   }
 
+  // Método para ir a la vista de sesiones
   irASesiones() {
     this.navController.navigateForward('/sesiones');
   }
