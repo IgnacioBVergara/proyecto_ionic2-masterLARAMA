@@ -21,13 +21,23 @@
     </div>
   </div>
 
+  <!-- Botón Generar QR Secciones -->
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
     <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="irASecciones()">
       <ion-icon slot="start" name="list-outline"></ion-icon>
       Generar QR Secciones
     </ion-button>
   </div>
-  
+
+  <!-- Nuevo Botón Nueva Asignatura -->
+  <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
+    <ion-button size="large" color="primary" style="flex: 1; max-width: 400px; text-align: center;" (click)="nuevaAsignatura()">
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+      Nueva Asignatura
+    </ion-button>
+  </div>
+
+  <!-- Botón Ver Asistencia Secciones -->
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
     <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="verAsistencia()">
       <ion-icon slot="start" name="list-outline"></ion-icon>
@@ -35,6 +45,7 @@
     </ion-button>
   </div>
 
+  <!-- Botón Ayuda -->
   <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
     <ion-button size="large" color="secondary" style="flex: 1; max-width: 400px; text-align: center;" (click)="abrirAyuda()">
       <ion-icon slot="start" name="help-circle-outline"></ion-icon>
@@ -45,10 +56,9 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-buttons slot="secondary" class="footer-buttons">    
+    <ion-buttons slot="secondary" class="footer-buttons">
       <ion-button expand="full" (click)="irASesiones()">
-        
-      </ion-button>  
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

@@ -42,4 +42,10 @@ export class VistaProfePage implements OnInit {
   abrirAyuda() {
     window.open('https://www.duoc.cl/contacto/', '_blank'); // Abre el enlace en una nueva pestaña
   }
+
+  // Método para manejar la acción de Nueva Asignatura
+  nuevaAsignatura() {
+    this.router.navigate(['/vista-nuevasignatura']); // Redirige a la vista-nuevasignatura
+  }
+  
 }

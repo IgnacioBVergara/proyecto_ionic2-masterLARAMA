@@ -9,81 +9,85 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
     path: 'vista-alumno',
-    loadChildren: () => import('./vista-alumno/vista-alumno.module').then( m => m.VistaAlumnoPageModule)
+    loadChildren: () => import('./vista-alumno/vista-alumno.module').then(m => m.VistaAlumnoPageModule)
   },
   {
     path: 'vista-camara',
-    loadChildren: () => import('./vista-camara/vista-camara.module').then( m => m.VistaCamaraPageModule)
+    loadChildren: () => import('./vista-camara/vista-camara.module').then(m => m.VistaCamaraPageModule)
   },
   {
     path: 'vista-ramos',
-    loadChildren: () => import('./vista-ramos/vista-ramos.module').then( m => m.VistaRamosPageModule)
+    loadChildren: () => import('./vista-ramos/vista-ramos.module').then(m => m.VistaRamosPageModule)
   },
   {
     path: 'vista-asistencia',
-    loadChildren: () => import('./vista-asistencia/vista-asistencia.module').then( m => m.VistaAsistenciaPageModule)
+    loadChildren: () => import('./vista-asistencia/vista-asistencia.module').then(m => m.VistaAsistenciaPageModule)
   },
   {
     path: 'vista-profe',
-    loadChildren: () => import('./vista-profe/vista-profe.module').then( m => m.VistaProfePageModule)
+    loadChildren: () => import('./vista-profe/vista-profe.module').then(m => m.VistaProfePageModule)
   },
   {
     path: 'vista-login',
-    loadChildren: () => import('./vista-login/vista-login.module').then( m => m.VistaLoginPageModule)
+    loadChildren: () => import('./vista-login/vista-login.module').then(m => m.VistaLoginPageModule)
   },
   {
     path: 'vista-reestabler',
-    loadChildren: () => import('./vista-reestabler/vista-reestabler.module').then( m => m.VistaReestablerPageModule)
+    loadChildren: () => import('./vista-reestabler/vista-reestabler.module').then(m => m.VistaReestablerPageModule)
   },
   {
     path: 'vista-cambioclave',
-    loadChildren: () => import('./vista-cambioclave/vista-cambioclave.module').then( m => m.VistaCambioclavePageModule)
+    loadChildren: () => import('./vista-cambioclave/vista-cambioclave.module').then(m => m.VistaCambioclavePageModule)
   },
   {
     path: 'vista-secciones',
-    loadChildren: () => import('./vista-secciones/vista-secciones.module').then( m => m.VistaSeccionesPageModule)
+    loadChildren: () => import('./vista-secciones/vista-secciones.module').then(m => m.VistaSeccionesPageModule)
   },
   {
     path: 'vista-proyectarqr',
-    loadChildren: () => import('./vista-proyectarqr/vista-proyectarqr.module').then( m => m.VistaProyectarqrPageModule) // Esta es la ruta donde proyectas el QR
+    loadChildren: () => import('./vista-proyectarqr/vista-proyectarqr.module').then(m => m.VistaProyectarqrPageModule) // Esta es la ruta donde proyectas el QR
   },
   {
     path: 'vista-generarqr',
-    loadChildren: () => import('./vista-generarqr/vista-generarqr.module').then( m => m.VistaGenerarqrPageModule) // Ruta para la generación del QR
+    loadChildren: () => import('./vista-generarqr/vista-generarqr.module').then(m => m.VistaGenerarqrPageModule) // Ruta para la generación del QR
   },
   {
     path: 'crearusuario',
-    loadChildren: () => import('./crearusuario/crearusuario.module').then( m => m.CrearusuarioPageModule)
+    loadChildren: () => import('./crearusuario/crearusuario.module').then(m => m.CrearusuarioPageModule)
   },
   {
     path: 'control-asistencia',
-    loadChildren: () => import('./control-asistencia/control-asistencia.module').then( m => m.ControlAsistenciaPageModule)
+    loadChildren: () => import('./control-asistencia/control-asistencia.module').then(m => m.ControlAsistenciaPageModule)
   },
   {
     path: 'sesiones',
-    loadChildren: () => import('./sesiones/sesiones.module').then( m => m.SesionesPageModule)
+    loadChildren: () => import('./sesiones/sesiones.module').then(m => m.SesionesPageModule)
   },
   {
     path: 'vista-asistenciaprofe',
-    loadChildren: () => import('./vista-asistenciaprofe/vista-asistenciaprofe.module').then( m => m.VistaAsistenciaprofePageModule)
+    loadChildren: () => import('./vista-asistenciaprofe/vista-asistenciaprofe.module').then(m => m.VistaAsistenciaprofePageModule)
   },
   {
     path: 'vista-asistencia-secciones',
-    loadChildren: () => import('./vista-asistencia-secciones/vista-asistencia-secciones.module').then( m => m.VistaAsistenciaSeccionesPageModule)
+    loadChildren: () => import('./vista-asistencia-secciones/vista-asistencia-secciones.module').then(m => m.VistaAsistenciaSeccionesPageModule)
   },
   {
     path: 'vista-registro',
-    loadChildren: () => import('./vista-registro/vista-registro.module').then( m => m.VistaRegistroPageModule)
+    loadChildren: () => import('./vista-registro/vista-registro.module').then(m => m.VistaRegistroPageModule)
   },
   {
     path: 'vista-detalles/:id',  // RUTA ACTUALIZADA CON EL PARÁMETRO ':id'
     loadChildren: () => import('./vista-detalles/vista-detalles.module').then(m => m.VistaDetallesPageModule)
-  }
-  ,
+  },
+  {
+    path: 'vista-nuevasignatura', // Ruta de la nueva vista para asignaturas
+    loadChildren: () => import('./vista-nuevasignatura/vista-nuevasignatura.module').then(m => m.VistaNuevasignaturaPageModule)
+  },
+
 ];
 
 @NgModule({
